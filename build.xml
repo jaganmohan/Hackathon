@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+v<?xml version="1.0" encoding="UTF-8"?>
 
 <project name="Hackathon" basedir="." default="war">
 
@@ -18,7 +18,7 @@
 	
 	<target name="build" description="">
 		<mkdir dir="${dir.classes}"/>
-		<javac destdir="${dir.classes}" failonerror="true" includeantruntime="false">
+		<javac destdir="${dir.classes}" failonerror="true" includeantruntime="false" debug="true">
 			<src path="${dir.src}"/>
 			<classpath refid="_classpath"/>
 		</javac>
