@@ -38,7 +38,8 @@ public class SearchProduct{
 		model.addAttribute("pageTitle", "Hello! Welcome to SMB Inventory Management");
 	}
 	
-	@RequestMapping(value="/productid/{productId}", produces="application/json")
+	@RequestMapping(value="/productid/{productId}")
+	@ResponseBody
 	public ArrayList<Product> searchById(@PathVariable("productId") Long productID, Model model){
 		
 		try {
@@ -54,6 +55,7 @@ public class SearchProduct{
 	}
 	
 	@RequestMapping("/productname/{productName}")
+	@ResponseBody
 	public ArrayList<Product> searchByName(@PathVariable("productName") String productName, Model model){
 		
 		try {
@@ -69,7 +71,8 @@ public class SearchProduct{
 	}
 	
 	@RequestMapping(value="/model/{modelNo}")
-	public @ResponseBody ArrayList<Product> searchByModel(@PathVariable("modelNo") String modelNo, Model model){
+	@ResponseBody
+	public ArrayList<Product> searchByModel(@PathVariable("modelNo") String modelNo, Model model){
 		
 		try {
 			product = fetchProduct.fetchProductDetails(modelNo, ProductBy.MODEL);
