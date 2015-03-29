@@ -34,16 +34,10 @@ public class FetchInflowOutflowDetails {
 		return conn;
 	}
 	
-	public ArrayList<Product> inflowDetails(Date searchFrom,Date searchTo, boolean isSearchToEnabled) throws SQLException{
+	public ArrayList<Product> inflowDetails(Date searchFrom,Date searchTo) throws SQLException{
 			
-			String query = "SELECT * FROM product NATURAL JOIN productInfo WHERE inflowDate=\""+df.format(searchFrom)+"\"";
-			if(isSearchToEnabled){
-				if(searchTo == null)
-					query = "SELECT * FROM product NATURAL JOIN productInfo WHERE inflowDate>=\""+df.format(searchFrom)+"\"";
-				else
-					query = "SELECT * FROM product NATURAL JOIN productInfo WHERE inflowDate>=\""+df.format(searchFrom)+"\" AND inflowDate<=\""+df.format(searchTo)+"\"";
+			String query = "SELECT * FROM product NATURAL JOIN productInfo WHERE inflowDate>=\""+df.format(searchFrom)+"\" AND inflowDate<=\""+df.format(searchTo)+"\"";
 				
-			}
 			Statement s = getConnection().createStatement();
 			ResultSet result = s.executeQuery(query);
 			ArrayList<Product> productDet = new ArrayList<Product>();
@@ -61,16 +55,10 @@ public class FetchInflowOutflowDetails {
 			return productDet;
 	}
 	
-	public ArrayList<Product> outflowDetails(Date searchFrom,Date searchTo, boolean isSearchToEnabled) throws SQLException{
+	public ArrayList<Product> outflowDetails(Date searchFrom,Date searchTo) throws SQLException{
 		
-		String query = "SELECT * FROM product NATURAL JOIN productInfo WHERE outflowDate=\""+df.format(searchFrom)+"\"";
-		if(isSearchToEnabled){
-			if(searchTo == null)
-				query = "SELECT * FROM product NATURAL JOIN productInfo WHERE outflowDate>=\""+df.format(searchFrom)+"\"";
-			else
-				query = "SELECT * FROM product NATURAL JOIN productInfo WHERE outflowDate>=\""+df.format(searchFrom)+"\" AND outflowDate<=\""+df.format(searchTo)+"\"";
+		String query = "SELECT * FROM product NATURAL JOIN productInfo WHERE outflowDate>=\""+df.format(searchFrom)+"\" AND outflowDate<=\""+df.format(searchTo)+"\"";
 			
-		}
 		Statement s = getConnection().createStatement();
 		ResultSet result = s.executeQuery(query);
 		ArrayList<Product> productDet = new ArrayList<Product>();
