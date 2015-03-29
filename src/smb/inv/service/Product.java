@@ -1,5 +1,6 @@
 package smb.inv.service;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Date;
 
@@ -8,7 +9,7 @@ public class Product {
 	private long productId;
 	private String productName;
 	private String modelNo;
-	private Map<String, String> specs;
+	private Map<String, String> specs = new HashMap<String,String>();
 	private String productDesc;
 	private Date inflowDate;
 	private Date outflowDate;
