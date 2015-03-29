@@ -1,6 +1,6 @@
 package smb.inv.service;
 
-import java.util.stream.Stream;
+import java.util.ArrayList;
 
 public class ProductDesc{
 	
@@ -10,13 +10,13 @@ public class ProductDesc{
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	public Stream<String> getDesc() {
+	public ArrayList<String> getDesc() {
 		return desc;
 	}
-	public void setDesc(Stream<String> desc) {
+	public void setDesc(ArrayList<String> desc) {
 		this.desc = desc;
 	}
 	private Product product;
-	private Stream<String> desc;
+	private ArrayList<String> desc;
 	
 }
