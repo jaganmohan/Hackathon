@@ -16,10 +16,15 @@
        
        <bean id="fetchProduct" class="smb.inv.service.FetchProductDetails">
        	<property name="dataSource" ref="dataSource"/>
+       	<property name="productDescFolder" ref="descFolderLoc"/>
        </bean>
        
        <bean id="fetchInflowOutflow" class="smb.inv.service.FetchInflowOutflowDetails">
        	<property name="dataSource" ref="dataSource"/>
+       </bean>
+       
+       <bean id="descFolderLoc" class="java.lang.String">
+       	<constructor-arg value="C:\ProductDesc\"/>
        </bean>
 
        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
