@@ -2,8 +2,11 @@ package smb.inv.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import smb.inv.service.Product;
 import smb.inv.service.ProductBy;
+import smb.inv.service.ProductDesc;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,5 +88,17 @@ public class SearchProduct{
 		model.addAttribute("searchType", "Searching product by product model number ...");	
 		return "product";*/
 	}
-	
+
+	@RequestMapping(value="/productinfo/{model}")
+	@ResponseBody
+	public ProductDesc productDesc(@RequestParam("product") Product product,@PathVariable("model") String modelNo, Model model ){
+		ProductDesc desc = null;
+		try {
+			desc = fetchProduct.productDesc(modelNo, product);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return desc;
+	}
 }
