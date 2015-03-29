@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -89,9 +90,9 @@ public class SearchProduct{
 		return "product";*/
 	}
 
-	@RequestMapping(value="/productinfo/{model}")
+	@RequestMapping(value="/productinfo/{model}", method=RequestMethod.POST)
 	@ResponseBody
-	public ProductDesc productDesc(@RequestParam("product") Product product,@PathVariable("model") String modelNo, Model model ){
+	public ProductDesc productDesc(@RequestBody Product product,@PathVariable("model") String modelNo, Model model ){
 		ProductDesc desc = null;
 		try {
 			desc = fetchProduct.productDesc(modelNo, product);
