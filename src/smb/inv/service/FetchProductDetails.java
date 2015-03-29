@@ -10,13 +10,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.sql.DataSource;
 
 public class FetchProductDetails {
 	
 	private DataSource dataSource;
 	Connection conn = null;
+	private String productDescFolder;
 	
+	public String getProductDescFolder() {
+		return productDescFolder;
+	}
+
+	public void setProductDescFolder(String productDescFolder) {
+		this.productDescFolder = productDescFolder;
+	}
+
 	public DataSource getDataSource() {
 		return dataSource;
 	}
@@ -44,7 +55,7 @@ public class FetchProductDetails {
 		else if(productBY == ProductBy.MODEL)
 			query = query+"productInfo NATURAL JOIN product where modelNo=\""+product+"\"";
 		else
-			query = query+"productInfo NATURAL JOIN product where productName=\""+product+".*\"";
+			query = query+"productInfo NATURAL JOIN product where productName LIKE \""+product+"%\"";
 		stmt = getConnection().createStatement();
 		ResultSet result = stmt.executeQuery(query);
 		
@@ -69,14 +80,20 @@ public class FetchProductDetails {
 		String query = "Select * from "+model+"_specs";
 		ResultSet result = s.executeQuery(query);
 		ProductDesc desc = new ProductDesc();
+		product.setSpecs(new HashMap<String,String>());
 		while(result.next()){
-			product.getSpecs().put(result.getString(0), result.getString(0));
+			product.getSpecs().put(result.getString("specskey"), result.getString("specsvalue"));
 		}
 		desc.setProduct(product);
 		BufferedReader read = null;
 		try {
-			read = Files.newBufferedReader(Paths.get(product.getDescFileLoc()), StandardCharsets.UTF_8);
-			desc.setDesc(read.lines());
+			read = Files.newBufferedReader(Paths.get(getProductDescFolder()+product.getDescFileLoc())
+					, StandardCharsets.UTF_8);
+			desc.setDesc(new ArrayList<String>());
+			String line;
+			while((line=read.readLine())!=null){
+				desc.getDesc().add(line);
+			}
 		} catch (IOException e) {
 			//TOODO log file not found exception message
 		}
