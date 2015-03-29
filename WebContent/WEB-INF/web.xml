@@ -16,6 +16,6 @@
   </servlet>
   <servlet-mapping>
   	<servlet-name>Hackathon</servlet-name>
-  	<url-pattern>/inventory/*</url-pattern>
+  	<url-pattern>/*</url-pattern>
   </servlet-mapping>
 </web-app>
