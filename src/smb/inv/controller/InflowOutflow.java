@@ -39,14 +39,10 @@ public class InflowOutflow {
 	@ResponseBody
 	public ArrayList<Product> inflow(@RequestParam Map<String,String> params, Model model){
 		Date searchFrom = null, searchTo = null;
-		boolean isSearchToEnabled = false;
 		
 		try {
 			searchFrom = df.parse(params.get("inflowFromDate"));
-			if(params.get("isSearchToEnabled")!=null)
-				isSearchToEnabled = Boolean.valueOf(params.get("isSearchToEnabled"));
-			if(isSearchToEnabled && params.get("inflowToDate")!=null)
-				searchTo = df.parse(params.get("inflowToDate"));
+			searchTo = df.parse(params.get("inflowToDate"));
 			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -55,7 +51,7 @@ public class InflowOutflow {
 		
 		ArrayList<Product> products = new ArrayList<Product>();
 		try {
-			products = fetchInflowOutflow.inflowDetails(searchFrom, searchTo, isSearchToEnabled);
+			products = fetchInflowOutflow.inflowDetails(searchFrom, searchTo);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,14 +63,10 @@ public class InflowOutflow {
 	@ResponseBody
 	public ArrayList<Product> outflow(@RequestParam Map<String,String> params, Model model){
 		Date searchFrom = null, searchTo = null;
-		boolean isSearchToEnabled = false;
 		
 		try {
 			searchFrom = df.parse(params.get("outflowFromDate"));
-			if(params.get("isSearchToEnabled")!=null)
-				isSearchToEnabled = Boolean.valueOf(params.get("isSearchToEnabled"));
-			if(isSearchToEnabled && params.get("outflowToDate")!=null)
-				searchTo = df.parse(params.get("outflowToDate"));
+			searchTo = df.parse(params.get("outflowToDate"));
 			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -83,7 +75,7 @@ public class InflowOutflow {
 		
 		ArrayList<Product> products = new ArrayList<Product>();
 		try {
-			products = fetchInflowOutflow.outflowDetails(searchFrom, searchTo, isSearchToEnabled);
+			products = fetchInflowOutflow.outflowDetails(searchFrom, searchTo);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
