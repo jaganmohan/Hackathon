@@ -1,11 +1,15 @@
 package smb.inv.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import javax.sql.DataSource;
 
 public class FetchProductDetails {
@@ -17,15 +21,23 @@ public class FetchProductDetails {
 		return dataSource;
 	}
 
-	public void setDataSource(DataSource dataSource) {
+	public void setDataSource(DataSource dataSource) throws SQLException {
 		this.dataSource = dataSource;
+		conn = getDataSource().getConnection();
+	}
+	
+	public void setConnection(Connection conn) {
+		this.conn = conn;
+	}
+	
+	public Connection getConnection(){
+		return conn;
 	}
 	
 	public ArrayList<Product> fetchProductDetails(String product, ProductBy productBY) throws SQLException{
 		
-		ArrayList<Product> productDet = new ArrayList<Product>();;
+		ArrayList<Product> productDet = new ArrayList<Product>();
 		Statement stmt;
-		conn = dataSource.getConnection();
 		String query = "Select * from ";
 		if(productBY == ProductBy.ID)
 			query = query+"product NATURAL JOIN productInfo where productID="+Long.parseLong(product);
@@ -33,7 +45,7 @@ public class FetchProductDetails {
 			query = query+"productInfo NATURAL JOIN product where modelNo=\""+product+"\"";
 		else
 			query = query+"productInfo NATURAL JOIN product where productName=\""+product+".*\"";
-		stmt = conn.createStatement();
+		stmt = getConnection().createStatement();
 		ResultSet result = stmt.executeQuery(query);
 		
 		Product p;
@@ -47,9 +59,29 @@ public class FetchProductDetails {
 			p.setProductName(result.getString("productName"));
 			productDet.add(p);
 		}
-		conn.close();
 		return productDet;
 		
+	}
+	
+	public ProductDesc productDesc(String model, Product product) throws SQLException{
+		
+		Statement s = getConnection().createStatement();
+		String query = "Select * from "+model+"_specs";
+		ResultSet result = s.executeQuery(query);
+		ProductDesc desc = new ProductDesc();
+		while(result.next()){
+			product.getSpecs().put(result.getString(0), result.getString(0));
+		}
+		desc.setProduct(product);
+		BufferedReader read = null;
+		try {
+			read = Files.newBufferedReader(Paths.get(product.getDescFileLoc()), StandardCharsets.UTF_8);
+			desc.setDesc(read.lines());
+		} catch (IOException e) {
+			//TOODO log file not found exception message
+		}
+		
+		return desc;
 	}
 
 }
