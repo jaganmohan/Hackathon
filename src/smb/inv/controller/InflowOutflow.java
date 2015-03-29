@@ -45,7 +45,7 @@ public class InflowOutflow {
 			searchFrom = df.parse(params.get("inflowFromDate"));
 			if(params.get("isSearchToEnabled")!=null)
 				isSearchToEnabled = Boolean.valueOf(params.get("isSearchToEnabled"));
-			if(isSearchToEnabled)
+			if(isSearchToEnabled && params.get("inflowToDate")!=null)
 				searchTo = df.parse(params.get("inflowToDate"));
 			
 		} catch (ParseException e) {
@@ -73,7 +73,7 @@ public class InflowOutflow {
 			searchFrom = df.parse(params.get("outflowFromDate"));
 			if(params.get("isSearchToEnabled")!=null)
 				isSearchToEnabled = Boolean.valueOf(params.get("isSearchToEnabled"));
-			if(isSearchToEnabled)
+			if(isSearchToEnabled && params.get("outflowToDate")!=null)
 				searchTo = df.parse(params.get("outflowToDate"));
 			
 		} catch (ParseException e) {
